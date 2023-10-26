@@ -1,4 +1,4 @@
-+@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Staff Role Bids')
 
@@ -25,10 +25,11 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th width="30%">Staff Role</th>
-                            <th width="30%">User Name</th>
+                            <th width="20%">Staff Role</th>
+                            <th width="20%">User Name</th>
                             <th width="20%">Applied On</th>
                             <th width="20%">Status</th>
+                            <th width="20%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,20 +40,33 @@
                                 <td>{{$users->find($staffrolebid->user_id)->first_name . ' '. $users->find($staffrolebid->user_id)->last_name}}</td>
                                 <td>{{$staffrolebid->updated_at->format('d/m/Y h:i A')}}</td>
                                 {{-- Status --}}
+                                <td>
+                                    @if($staffrolebid->status == 1)
+                                        Approved
+                                    @elseif($staffrolebid->status == -1)
+                                        Rejected
+                                    @elseif($staffrolebid->status == 0)
+                                        Pending Approval
+                                    @endif
+                                </td>
                                 <td class="form-control-user" style="display: flex">
-                                @if($staffrolebid->status == 1)
-                                    Approved
-                                @elseif($staffrolebid->status == -1)
-                                    Rejected
-                                @elseif(($staffrolebid->status == 0) && (auth()->user()->role_id==4))
-                                    Pending Approval
-                                @else
-                                    <button id="btnApprove" type="submit" name="status" value="1" class="btn btn-success m-2" 
-                                    data-toggle="modal" data-target="#confirmModal">
-                                        <i class="fa fa-check"></i> Approve
-                                    </a>
-                                    <button id="btnReject" type="submit" name="status" value="-1" class="btn btn-danger m-2" data-toggle="modal" data-target="#confirmModal" >
-                                        <i class="fa fa-times"></i> Reject
+                                @if(auth()->user()->role_id==4)
+                                    <a href="{{ route('staffrolebids.edit', ['staffrolebid' => $staffrolebid->id]) }}" class="btn btn-primary m-2">
+                                        <i class="fa fa-pen"></i>
+                                   </a>
+                                   <form method="POST" action="{{ route('staffrolebids.destroy', ['staffrolebid' => $staffrolebid->id]) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger m-2" type="submit">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                   </form>
+                                @elseif(auth()->user()->role_id==3)
+                                    <button id="btnApprove" type="submit" name="status" value="1" class="btn btn-success m-2">
+                                        <i class="fa fa-check"></i>
+                                    </button>
+                                    <button id="btnReject" type="submit" name="status" value="-1" class="btn btn-danger m-2">
+                                        <i class="fa fa-times"></i>
                                     </button>
                                 @endif
                                 </td>

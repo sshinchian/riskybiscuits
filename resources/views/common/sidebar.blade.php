@@ -165,12 +165,12 @@
         </div>
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#bidsPages"
                 aria-expanded="true" aria-controls="collapsePages">
                 <i class="fas fa-fw fa-folder"></i>
                 <span>Bids</span>
             </a>
-            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="bidsPages" class="collapse" aria-labelledby="headingBids" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Staff Role Bid</h6>
                     <a class="collapse-item" href="{{ route('staffrolebids.index') }}">View Staff Role Bids</a>
