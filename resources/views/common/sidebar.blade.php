@@ -79,7 +79,7 @@
 
 
 
-    @if(auth()->user()->hasRole('SuperAdmin')  || auth()->user()->hasRole('CafeOwner'))
+    @if(auth()->user()->hasRole('SuperAdmin')  || auth()->user()->hasRole('CafeOwner')) || auth()->user()->hasRole('Staff'))
     <!-- Heading -->
     <div class="sidebar-heading">
         Workslots
