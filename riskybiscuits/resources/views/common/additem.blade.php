@@ -1,0 +1,1 @@
+<script src="{{ asset('admin/vendor/addinvoiceitem/additem.js') }}"></script>
