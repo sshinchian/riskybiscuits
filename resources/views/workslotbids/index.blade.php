@@ -52,10 +52,10 @@
                             
                             @if(auth()->user()->role_id==4)
                             <td class="form-control-user" style="display: flex">
-                            <a href="{{ route('workslotbids.edit', ['workslotbid' => $workslotbid->id]) }}" class="btn btn-primary m-2">
+                            <a href="{{-- {{ route('workslotbids.edit', ['workslotbid' => $workslotbid->id]) }} --}}" class="btn btn-primary m-2">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <form method="POST" action="{{ route('workslotbids.destroy', ['workslotbid' => $workslotbid->id]) }}">
+                                <form method="POST" action="{{-- {{ route('workslotbids.destroy', ['workslotbid' => $workslotbid->id]) }} --}}">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-danger m-2" type="submit">
