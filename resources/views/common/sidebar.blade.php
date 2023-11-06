@@ -9,7 +9,6 @@
     </a>
 
     <!-- Divider -->
-    <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
@@ -87,7 +86,8 @@
 
 
 
-    @if(auth()->user()->hasRole('SuperAdmin')  || auth()->user()->hasRole('CafeOwner'))    <!-- Heading -->
+    @if(auth()->user()->hasRole('SuperAdmin')  || auth()->user()->hasRole('CafeOwner'))
+    <!-- Heading -->
     <div class="sidebar-heading">
         Workslots
     </div>
