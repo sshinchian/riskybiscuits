@@ -9,7 +9,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">My Work Slot Bids</h1>
         <a href="{{ route('workslotbids.create') }}" class="btn btn-sm btn-primary">
-    <i class="fas fa-plus"></i> Bid Workslot
+    <i class="fas fa-plus"></i> Add New
 </a>
 
     </div>

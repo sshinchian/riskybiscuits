@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\StaffRoleBid;
 
 class WorkSlotBidController extends Controller
 {
@@ -73,11 +74,11 @@ class WorkSlotBidController extends Controller
                             ->whereNull('deleted_at')
                             ->paginate(10);
 
-
         return view('workslotbids.create', [
             'workslots' => $workslots,
             'workslotbids' => $workslotbids, // Pass the $workslotbids variable to the view
             'permissions' => $permissions,
+        
         ]);
     }
 

@@ -43,6 +43,7 @@
                             @php
                                 $existingBid = $workslotbids->where('work_slot_id', $workslot->id)->where('user_id', auth()->user()->id)->first();
                             @endphp
+                            
                         <tr>
                             {{-- <td>{{ $workslot->time_slot_name }}</td> --}}
                             <td>{{ $workslot->date }}</td>
