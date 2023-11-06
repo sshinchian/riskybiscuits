@@ -7,7 +7,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Work Slot Bids</h1>
+        <h1 class="h3 mb-0 text-gray-800">My Work Slot Bids</h1>
         <a href="{{ route('workslotbids.create') }}" class="btn btn-sm btn-primary">
     <i class="fas fa-plus"></i> Bid Workslot
 </a>
@@ -21,7 +21,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">My Work Slot Bids</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Workslots</h6>
             
         </div>
         <div class="card-body">
@@ -80,5 +80,14 @@
     </div>
 
 </div>
+
+@endsection
+@section('scripts')
+
+<!-- tables scripts -->
+@include('common.tables')
+<!-- End of tables scripts -->
+
+
 
 @endsection

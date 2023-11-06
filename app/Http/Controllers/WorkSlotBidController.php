@@ -142,7 +142,7 @@ class WorkSlotBidController extends Controller
             // Soft delete by updating the deleted_at timestamp
             $workslotbid->delete();
 
-            return redirect()->route('workslotbids.index')->with('success', 'Work slot bid soft-deleted successfully.');
+            return redirect()->route('workslotbids.index')->with('success', 'Bid Deleted Successfully.');
         } else {
             return redirect()->route('workslotbids.index')->with('error', 'Work slot bid not found.');
         }
