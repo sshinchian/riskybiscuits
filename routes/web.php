@@ -85,11 +85,12 @@ Route::middleware(['auth'])->prefix('workslotsbids')->name('workslotbids.')->gro
     Route::get('/', [WorkSlotBidController::class, 'index'])->name('index');
     Route::get('/create', [WorkSlotBidController::class, 'create'])->name('create');
     Route::post('/store', [WorkSlotBidController::class, 'store'])->name('store');
-    Route::get('/{workslotbids}/edit', [WorkSlotController::class, 'edit'])->name('edit');
-    Route::put('/{workslotbids}', [WorkSlotBidController::class, 'update'])->name('update');
-    Route::delete('/{workslotbids}', [WorkSlotBidController::class, 'destroy'])->name('destroy');
-    
+    Route::get('/{workslotbid}/edit', [WorkSlotBidController::class, 'edit'])->name('edit'); // Use 'workslotbid' instead of 'workslotbids'
+    Route::put('/{workslotbid}', [WorkSlotBidController::class, 'update'])->name('update'); // Use 'workslotbid' instead of 'workslotbids'
+    Route::delete('/{workslotbid}', [WorkSlotBidController::class, 'destroy'])->name('destroy'); // Use 'workslotbid' instead of 'workslotbids'
+
 });
+
 
 
 //Workslots

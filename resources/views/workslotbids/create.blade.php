@@ -79,10 +79,6 @@
                                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}"  > <!-- Example value -->
                                     <button type="submit" class="btn btn-primary">Bid</button>
                                 </form>
-
-
-
-
                             </td>
 
 

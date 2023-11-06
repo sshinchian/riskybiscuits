@@ -23,6 +23,11 @@ class WorkSlotBid extends Model
         
     ];
     */
-    
+    protected $fillable = [
+    'work_slot_id',
+    'user_id',
+    'status',
+    'created_at', // You can remove this if it's not needed to be mass assignable
+];
 
 }

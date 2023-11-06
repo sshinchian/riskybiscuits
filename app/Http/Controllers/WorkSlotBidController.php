@@ -136,17 +136,17 @@ class WorkSlotBidController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->id;
-
-        $workslotbid = WorkSlotBid::find($id);
+        $workslotbid = WorkSlotBid::withTrashed()->find($id);
 
         if ($workslotbid) {
-            $workslotbid->delete(); // This sets the deleted_at timestamp
+            // Soft delete by updating the deleted_at timestamp
+            $workslotbid->delete();
+
             return redirect()->route('workslotbids.index')->with('success', 'Work slot bid soft-deleted successfully.');
         } else {
             return redirect()->route('workslotbids.index')->with('error', 'Work slot bid not found.');
         }
     }
-
 
 
 

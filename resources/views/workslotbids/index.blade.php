@@ -58,8 +58,16 @@
                                     @endif
                                 </td>
                                 <td class="form-control-user" style="display: flex">
-                                    
+                                    <form method="POST" action="{{ route('workslotbids.destroy', ['workslotbid' => $workslotbid->id]) }}">
+                                        @csrf
+                                        @method('DELETE') <!-- Use POST method with _method field to simulate DELETE -->
+                                        <input type="hidden" name="id" value="{{ $workslotbid->id }}">
+                                        <button class="btn btn-danger m-2" type="submit">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
+
 
                            </tr>
                        @endforeach
