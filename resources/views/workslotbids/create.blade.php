@@ -40,6 +40,9 @@
 
                     
                         @foreach ($workslots as $workslot)
+                            @php
+                                $existingBid = $workslotbids->where('work_slot_id', $workslot->id)->where('user_id', auth()->user()->id)->first();
+                            @endphp
                         <tr>
                             {{-- <td>{{ $workslot->time_slot_name }}</td> --}}
                             <td>{{ $workslot->date }}</td>
@@ -73,12 +76,14 @@
                                 </form>
                                 -->
                          
-                                <form method="POST" action="{{ route('workslotbids.store') }}">
-                                    @csrf
-                                    <input type="hidden" name="work_slot_id" value="{{ $workslot->id }}"> <!-- Example value -->
-                                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}"  > <!-- Example value -->
-                                    <button type="submit" class="btn btn-primary">Bid</button>
-                                </form>
+                                @if (!$existingBid)
+                                    <form method="POST" action="{{ route('workslotbids.store') }}">
+                                        @csrf
+                                        <input type="hidden" name="work_slot_id" value="{{ $workslot->id }}">
+                                        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                        <button type="submit" class="btn btn-primary">Bid</button>
+                                    </form>
+                                @endif
                             </td>
 
 
