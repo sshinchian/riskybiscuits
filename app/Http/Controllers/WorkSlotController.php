@@ -80,7 +80,7 @@ class WorkSlotController extends Controller
 
     public function update(Request $request, WorkSlot $workSlot)
         {
-             $request->validate([
+            $request->validate([
                 'staff_role_id'             => 'required',
                 /* 'time_slot_name'         => 'required', */
                 'start_date'                => 'required',
@@ -138,9 +138,9 @@ class WorkSlotController extends Controller
         public function importWorkslots() {
 
             return view('workslot.import');
-         }
+        }
 
-       public function uploadWorkslots(Request $request) {
+        public function uploadWorkslots(Request $request) {
 
             Excel::import(new WorkslotImport, $request->file);
             return redirect()->route('workslot.index')->with('success', 'Workslots Imported Successfully!');

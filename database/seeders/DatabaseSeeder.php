@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             PermissionSeeder::class,
             StaffRoleSeeder::class,
-            /* WorkSlotSeeder::class, */
+            WorkSlotSeeder::class,
             StaffRoleBidSeeder::class,
-            /* WorkSlotBidSeeder::class, */
+            WorkSlotBidSeeder::class,
         ]);
 
         Cafes::factory(5)->create();

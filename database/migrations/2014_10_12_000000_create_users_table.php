@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('role_id')->default(4)->comment('1=SuperAdmin, 2=CafeOwner, 3=Manager, 4=Staff');
+            $table->integer('requested_workslots')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->rememberToken();
             $table->timestamps();

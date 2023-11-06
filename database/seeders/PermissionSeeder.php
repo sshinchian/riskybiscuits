@@ -82,7 +82,7 @@ class PermissionSeeder extends Seeder
         $user = User::where('role_id', 3)->first();
         $user->assignRole($role->id);
 
-        //Only bidding permissions
+        //Only bidding permissions for CafeStaff
         $permissions_saved =[];
         foreach(Permission::all() as $permission){
             if(str_contains($permission->name, 'bid'))
@@ -94,8 +94,10 @@ class PermissionSeeder extends Seeder
         $role->syncPermissions($permissions_saved);
         
         //CafeStaff Role Sync Permission
-        $user = User::where('role_id', 4)->first();
-        $user->assignRole($role->id);
+        $users = User::where('role_id', 4)->get();
+        foreach($users as $user){
+            $user->assignRole($role->id);
+        }
 
 
         //SuperAdmin Permissions

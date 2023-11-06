@@ -32,15 +32,26 @@ class WorkSlotBidController extends Controller
      */
     public function index()
     {
-        $workslotbids = WorkSlotBid::paginate(10);
-        $workslots = WorkSlot::paginate(10);
-        $users = User::paginate(10);
+        if(auth()->user()->role_id == 3){
+            $workslotbids = WorkSlotBid::paginate(10);
+            $workslots = WorkSlot::paginate(10);
+            $users = User::paginate(10);
+            return view('workslotbids.index', [
+                'workslotbids' => $workslotbids,
+                'workslots' => $workslots,
+                'users' => $users
+            ]);
+        } else if(auth()->user()->role_id == 4) {
+            $workslotbids = WorkSlotBid::where('user_id', auth()->user()->id)->paginate(10);
+            $workslots = WorkSlot::paginate(10);
+            $users = User::query()->where('id', auth()->user()->id)->paginate(10);
+            return view('workslotbids.index', [
+                'workslotbids' => $workslotbids,
+                'workslots' => $workslots,
+                'users' => $users
+            ]);
+        }
 
-        return view('workslotbids.index', [
-            'workslotbids' => $workslotbids,
-            'workslots' => $workslots,
-            'users' => $users
-        ]);
     }
 
     /**
@@ -87,80 +98,74 @@ class WorkSlotBidController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-//     public function show($id)
-//     {
-//         //
-//     }
+    // public function show($id)
+    // {
+    //     //
+    // }
 
-//     /**
-//      * Show the form for editing the specified resource.
-//      *
-//      * @param  int  $id
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function edit($id)
-//     {
-//         $role = Role::whereId($id)->with('permissions')->first();
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function edit($id)
+    // {
+    //     $role = Role::whereId($id)->with('permissions')->first();
         
-//         $permissions = Permission::all();
+    //     $permissions = Permission::all();
 
-//         return view('workslotbids.edit', ['workslotbids' => $workslotbids, 'permissions' => $permissions]);
-//     }
+    //     return view('workslotbids.edit', ['workslotbids' => $workslotbids, 'permissions' => $permissions]);
+    // }
 
-//     /**
-//      * Update the specified resource in storage.
-//      *
-//      * @param  \Illuminate\Http\Request  $request
-//      * @param  int  $id
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function update(Request $request, $id)
-//     {
-//         DB::beginTransaction();
-//         try {
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, WorkSlotBid $workSlotBid)
+    {
+        // Validate Request
+        $request->validate([
+            'status' => 'required',
+        ]);
 
-//             // Validate Request
-//             $request->validate([
-//                 'name' => 'required',
-//                 'guard_name' => 'required'
-//             ]);
+        DB::beginTransaction();
+        try {
             
-//             $role = Role::whereId($id)->first();
+            $workSlotBid->update([
+                'status' => $request->status,
+                'remarks' =>$request->remarks,
+            ]);
+            DB::commit();
 
-//             $role->name = $request->name;
-//             $role->guard_name = $request->guard_name;
-//             $role->save();
+            return redirect()->route('workslotbid.index')->with('success','Work Slot Bid updated successfully.');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->route('workslotbid.index',['workSlotBid' => $workSlotBid])->with('error',$th->getMessage());
+        }
+    }
 
-//             // Sync Permissions
-//             $permissions = $request->permissions;
-//             $role->syncPermissions($permissions);
-            
-//             DB::commit();
-//             return redirect()->route('roles.index')->with('success','Roles updated successfully.');
-//         } catch (\Throwable $th) {
-//             DB::rollback();
-//             return redirect()->route('roles.edit',['role' => $role])->with('error',$th->getMessage());
-//         }
-//     }
-
-//     /**
-//      * Remove the specified resource from storage.
-//      *
-//      * @param  int  $id
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function destroy($id)
-//     {
-//         DB::beginTransaction();
-//         try {
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    // public function destroy($id)
+    // {
+    //     DB::beginTransaction();
+    //     try {
     
-//             Role::whereId($id)->delete();
+    //         Role::whereId($id)->delete();
             
-//             DB::commit();
-//             return redirect()->route('roles.index')->with('success','Roles deleted successfully.');
-//         } catch (\Throwable $th) {
-//             DB::rollback();
-//             return redirect()->route('roles.index')->with('error',$th->getMessage());
-//         }
-//     }
+    //         DB::commit();
+    //         return redirect()->route('roles.index')->with('success','Roles deleted successfully.');
+    //     } catch (\Throwable $th) {
+    //         DB::rollback();
+    //         return redirect()->route('roles.index')->with('error',$th->getMessage());
+    //     }
+    // }
 }

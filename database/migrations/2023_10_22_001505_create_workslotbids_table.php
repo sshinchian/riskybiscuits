@@ -18,10 +18,10 @@ return new class extends Migration
             $table->unsignedBigInteger('work_slot_id');
             $table->unsignedBigInteger('user_id');
             $table->integer('status')->default(0)->comment('Status: 0=Pending Approval; 1=Approved; -1=Rejected');
-            
+            $table->text('remarks')->nullable();
+            $table->integer('cafe_id')->default(1)->nullable();
             $table->foreign('work_slot_id')->references('id')->on('work_slots');
             $table->foreign('user_id')->references('id')->on('users');
-            
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });

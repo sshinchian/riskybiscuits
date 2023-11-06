@@ -4,9 +4,6 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -27,6 +24,7 @@ class User extends Authenticatable
         'email',
         'mobile_number',
         'role_id',
+        'requested_workslots',
         'status',
         'password',
     ];
@@ -49,34 +47,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
-    //One To One Relationship
-    //Staff can bid for only one staff roles
-    public function staffRoleBid(): HasOne {
-        return $this->hasOne(StaffRoleBid::class);
-    }
-
-    //One To Many (Inverse) / Belongs To Relationship
-    //Staff belongs to only one staff role
-    // public function staffRole(): BelongsTo {
-    //     return $this->belongsTo(StaffRole::class);
-    // }
-
-    //One to Many Relationship
-    //Owner can create multiple work slots
-    public function workSlot(): HasMany {
-        return $this->hasMany(WorkSlot::class);
-    }
-    //Owner can create multiple staff roles
-    public function staffRoles(): HasMany {
-        return $this->hasMany(WorkSlot::class);
-    }
-
-    //Staff can bid for multiple work slots
-    public function workSlotBid(): HasMany {
-        return $this->hasMany(WorkSlotBid::class);
-    }
-
 
     /**
      * Get the user's full name.

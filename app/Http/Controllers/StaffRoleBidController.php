@@ -42,7 +42,7 @@ class StaffRoleBidController extends Controller
                 'users' => $users
             ]);
         } else if(auth()->user()->role_id == 4) {
-            $staffrolebids = StaffRoleBid::query()->where('user_id', auth()->user()->id)->paginate(10);
+            $staffrolebids = StaffRoleBid::where('user_id', auth()->user()->id)->paginate(10);
             $staffroles = StaffRoles::paginate(10);
             $users = User::query()->where('id', auth()->user()->id)->paginate(10);
             return view('staffrolebids.index', [
@@ -58,12 +58,12 @@ class StaffRoleBidController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        $permissions = Permission::all();
+    // public function create()
+    // {
+    //     $permissions = Permission::all();
 
-        return view('staffrolebids.add', ['permissions' => $permissions]);
-    }
+    //     return view('staffrolebids.add', ['permissions' => $permissions]);
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -71,25 +71,25 @@ class StaffRoleBidController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-            $request->validate([
-                'name' => 'required',
-                'guard_name' => 'required'
-            ]);
+    // public function store(Request $request)
+    // {
+    //     DB::beginTransaction();
+    //     try {
+    //         $request->validate([
+    //             'name' => 'required',
+    //             'guard_name' => 'required'
+    //         ]);
     
-            Role::create($request->all());
+    //         Role::create($request->all());
 
-            DB::commit();
-            return redirect()->route('staffrolebids.index')->with('success','Roles created successfully.');
-        } catch (\Throwable $th) {
-            DB::rollback();
-            return redirect()->route('staffrolebids.add')->with('error',$th->getMessage());
-        }
+    //         DB::commit();
+    //         return redirect()->route('staffrolebids.index')->with('success','Roles created successfully.');
+    //     } catch (\Throwable $th) {
+    //         DB::rollback();
+    //         return redirect()->route('staffrolebids.add')->with('error',$th->getMessage());
+    //     }
         
-    }
+    // }
 
     /**
      * Display the specified resource.
@@ -97,10 +97,10 @@ class StaffRoleBidController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
+    // public function show($id)
+    // {
+    //     //
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -108,14 +108,14 @@ class StaffRoleBidController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $role = Role::whereId($id)->with('permissions')->first();
+    // public function edit($id)
+    // {
+    //     $role = Role::whereId($id)->with('permissions')->first();
         
-        $permissions = Permission::all();
+    //     $permissions = Permission::all();
 
-        return view('staffrolebids.edit', ['staffrolebids' => $staffrolebids, 'permissions' => $permissions]);
-    }
+    //     return view('staffrolebids.edit', ['staffrolebids' => $staffrolebids, 'permissions' => $permissions]);
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -124,27 +124,28 @@ class StaffRoleBidController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, StaffRoleBid $staffRoleBid)
     {
+
+
+        // Validate Request
+        $request->validate([
+            'status' => 'required',
+        ]);
+
         DB::beginTransaction();
         try {
-
-            // Validate Request
-            $request->validate([
-                'status' => 'required',
-            ]);
             
-            $role = Role::whereId($id)->first();
-            $staffrolebid = StaffRoleBid::whereId($request->id);
-            $staffrolebid->status = $request->status;
-            $staffrolebid->save();
-
+            $staffRoleBid->update([
+                'status' => $request->status,
+                'remarks' => $request->remarks,
+            ]);
             DB::commit();
-            return redirect()->route('staffrolebids.index')->with('success','Staff Role Bids updated successfully.');
+            return redirect()->route('staffrolebid.index')->with('success','Staff Role Bids updated successfully.');
         
         } catch (\Throwable $th) {
             DB::rollback();
-            return redirect()->route('staffrolebids.index',['staffrolebid' => $staffrolebid])->with('error',$th->getMessage());
+            return redirect()->route('staffrolebid.index',['staffRoleBid' => $staffRoleBid])->with('error',$th->getMessage());
         }
     }
 
