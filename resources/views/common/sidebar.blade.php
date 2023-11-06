@@ -9,6 +9,7 @@
     </a>
 
     <!-- Divider -->
+    <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
