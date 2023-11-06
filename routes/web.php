@@ -81,6 +81,15 @@ Route::resource('staffrolebids', StaffRoleBidController::class);
 
 //Work Slot Bids
 Route::resource('workslotbids', WorkSlotBidController::class);
+Route::middleware(['auth'])->prefix('workslotsbids')->name('workslotbids.')->group(function() {
+    Route::get('/', [WorkSlotBidController::class, 'index'])->name('index');
+    Route::get('/create', [WorkSlotBidController::class, 'create'])->name('create');
+    Route::post('/store', [WorkSlotBidController::class, 'store'])->name('store');
+    Route::get('/{workslotbids}/edit', [WorkSlotController::class, 'edit'])->name('edit');
+    Route::put('/{workslotbids}', [WorkSlotBidController::class, 'update'])->name('update');
+    Route::delete('/{workslotbids}', [WorkSlotBidController::class, 'destroy'])->name('destroy');
+    
+});
 
 
 //Workslots

@@ -32,6 +32,7 @@ class WorkSlotBidController extends Controller
      */
     public function index()
     {
+
         if(auth()->user()->role_id == 3){
             $workslotbids = WorkSlotBid::paginate(10);
             $workslots = WorkSlot::paginate(10);
@@ -42,7 +43,11 @@ class WorkSlotBidController extends Controller
                 'users' => $users
             ]);
         } else if(auth()->user()->role_id == 4) {
-            $workslotbids = WorkSlotBid::query()->where('user_id', auth()->user()->id)->paginate(10);
+            $workslotbids = WorkSlotBid::query()
+                            ->where('user_id', auth()->user()->id)
+                            ->whereNull('deleted_at')
+                            ->paginate(10);
+
             $workslots = WorkSlot::paginate(10);
             $users = User::query()->where('id', auth()->user()->id)->paginate(10);
             return view('workslotbids.index', [
@@ -62,8 +67,9 @@ class WorkSlotBidController extends Controller
     public function create()
     {
         $permissions = Permission::all();
+        $workslots = WorkSlot::paginate(10);
 
-        return view('workslotbids.add', ['permissions' => $permissions]);
+        return view('workslotbids.create',['workslots' => $workslots], ['permissions' => $permissions]);
     }
 
     /**
@@ -72,25 +78,77 @@ class WorkSlotBidController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+     /*
     public function store(Request $request)
     {
         DB::beginTransaction();
         try {
             $request->validate([
-                'name' => 'required',
-                'guard_name' => 'required'
+                //'name' => 'required',
+                //'guard_name' => 'required'
             ]);
     
             Role::create($request->all());
 
             DB::commit();
-            return redirect()->route('workslotbids.index')->with('success','Roles created successfully.');
+            return redirect()->route('workslotbids.create')->with('success','Work slot bid created successfully.');
         } catch (\Throwable $th) {
             DB::rollback();
-            return redirect()->route('workslotbids.add')->with('error',$th->getMessage());
+            return redirect()->route('workslotbids.create')->with('error',$th->getMessage());
         }
         
     }
+    */
+
+    public function store(Request $request)
+    {
+        $request->validate([
+        'work_slot_id' => 'required',
+        'user_id' => 'required'
+        ]);
+
+        DB::beginTransaction();
+        try {
+            // Store Data
+            $bid = WorkSlotBid::create([
+                'work_slot_id' => $request->work_slot_id,
+                'user_id' => $request->user_id,
+                'status' => '0',
+                'created_at' => now()
+            ]);
+
+            // Commit And Redirected To Listing
+            DB::commit();
+
+                
+            //dd($request);
+            return redirect()->route('workslotbids.create')->with('success','Bid Created Successfully.');
+
+
+        } catch (\Throwable $th) {
+            // Rollback and return with Error
+            DB::rollBack();
+            return redirect()->route('workslotbids.create')->with('error',$th->getMessage());
+        }
+    }
+
+    public function destroy(Request $request)
+    {
+        $id = $request->id;
+
+        $workslotbid = WorkSlotBid::find($id);
+
+        if ($workslotbid) {
+            $workslotbid->delete(); // This sets the deleted_at timestamp
+            return redirect()->route('workslotbids.index')->with('success', 'Work slot bid soft-deleted successfully.');
+        } else {
+            return redirect()->route('workslotbids.index')->with('error', 'Work slot bid not found.');
+        }
+    }
+
+
+
 
     /**
      * Display the specified resource.

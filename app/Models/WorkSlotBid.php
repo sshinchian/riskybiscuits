@@ -12,9 +12,17 @@ class WorkSlotBid extends Model
     use HasFactory;
     use SoftDeletes;
 
+    /*
     protected $fillable = [
         'cafe_id',
         'work_slot_id',
         'user_id',
     ];
+
+    protected $fillable = [
+        
+    ];
+    */
+    
+
 }
