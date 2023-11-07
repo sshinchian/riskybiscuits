@@ -89,6 +89,7 @@ Route::middleware(['auth'])->prefix('staffrolebids')->name('staffrolebid.')->gro
 //Work Slot Bids
 Route::middleware(['auth'])->prefix('workslotbids')->name('workslotbid.')->group(function() {
     Route::get('/', [WorkSlotBidController::class, 'index'])->name('index');
+    Route::get('/viewworkslots', [WorkSlotBidController::class, 'viewworkslots'])->name('viewworkslots');
     Route::get('/create', [WorkSlotBidController::class, 'create'])->name('create');
     Route::post('/store', [WorkSlotBidController::class, 'store'])->name('store');
     Route::get('/{workSlotBid}/edit', [WorkSlotBidController::class, 'edit'])->name('edit');
