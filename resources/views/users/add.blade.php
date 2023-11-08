@@ -44,7 +44,7 @@
 
                     {{-- Last Name --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Last Name</label>
+                        <span style="color:red;"></span>Last Name</label>
                         <input 
                             type="text" 
                             class="form-control form-control-user @error('last_name') is-invalid @enderror" 
@@ -76,7 +76,7 @@
 
                     {{-- Mobile Number --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Mobile Number</label>
+                        <span style="color:red;"></span>Mobile Number</label>
                         <input 
                             type="text" 
                             class="form-control form-control-user @error('mobile_number') is-invalid @enderror" 
@@ -106,7 +106,7 @@
 
                     {{-- Requested Slots --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Requested Workslots</label>
+                        <span style="color:red;"></span>Requested Workslots</label>
                         <input 
                             type="text" 
                             class="form-control form-control-user @error('requested_workslots') is-invalid @enderror" 
