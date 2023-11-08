@@ -11,6 +11,7 @@
         <h1 class="h3 mb-0 text-gray-800">Workslots</h1>
     </div>
 
+    @if(auth()->user()->hasRole('SuperAdmin') || auth()->user()->hasRole('CafeOwner'))
     <div class="col-md-6" style="margin-bottom:20px;">
         <a href="{{ route('workslot.create') }}" class="btn btn-sm btn-primary">
             <i class="fas fa-plus"></i> Add New
@@ -20,6 +21,7 @@
             <i class="fas fa-check"></i> Import Workslots
         </a>
     </div>
+    @endif
 
 
     {{-- Alert Messages --}}
@@ -55,6 +57,7 @@
                             <td>{{ $workslot->end_time }}</td>
                             <td>{{ $workslot->quantity }}</td>
 
+                            @if(auth()->user()->hasRole('SuperAdmin') || auth()->user()->hasRole('CafeOwner'))
                             <td style="display: flex">
                                 <a href="{{ route('workslot.edit', ['workSlot' => $workslot->id]) }}"
                                     class="btn-sm btn-primary m-2">
@@ -66,6 +69,16 @@
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
+
+                            @elseif(auth()->user()->hasRole('Staff'))
+                            <td style="display: flex">
+                                <a href="{{-- {{ route('workslot.edit', ['workSlot' => $workslot->id]) }} --}}"
+                                    class="btn-sm btn-success m-2">
+                                    <i class="fas fa-check"></i>
+                                </a>
+                            </td>
+                            @endif
+
                         </tr>
                         @endforeach
                     </tbody>

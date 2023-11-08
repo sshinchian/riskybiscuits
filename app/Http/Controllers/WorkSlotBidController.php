@@ -54,11 +54,6 @@ class WorkSlotBidController extends Controller
 
     }
 
-    public function viewworkslots()
-    {
-        $workSlots = WorkSlot::all();
-        return view('workslot.viewworkslots', compact('workSlots'));
-    }
 
     /**
      * Show the form for creating a new resource.

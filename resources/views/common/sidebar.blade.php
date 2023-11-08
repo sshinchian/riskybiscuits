@@ -137,7 +137,7 @@
             </a>
             <div id="workslotBids" class="collapse" aria-labelledby="headingBids" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{{ route('workslotbid.viewworkslots') }}">View Workslots</a>
+                    <a class="collapse-item" href="{{ route('workslot.index') }}">View Workslots</a>
                     
                     @if(auth()->user()->hasRole('Staff'))
                     <a class="collapse-item" href="{{ route('workslotbid.index') }}">My Bids</a>
