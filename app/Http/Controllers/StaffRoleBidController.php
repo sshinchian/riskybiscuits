@@ -53,6 +53,26 @@ class StaffRoleBidController extends Controller
         }
     }
 
+    public function create()
+    {
+        $permissions = Permission::all();
+        $staffroles = StaffRoles::query()
+                            ->where('id', auth()->user()->staff_role_id)
+                            ->whereNull('deleted_at')
+                            ->paginate(10);
+        $staffrolebids = StaffRoleBid::query()
+                            ->where('user_id', auth()->user()->id)
+                            ->whereNull('deleted_at')
+                            ->paginate(10);
+
+        return view('staffrolebids.create', [
+            'staffroles' => $staffroles,
+            'staffrolebids' => $staffrolebids, // Pass the $staffrolebids variable to the view
+            'permissions' => $permissions,
+
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -157,6 +177,28 @@ class StaffRoleBidController extends Controller
         }
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        DB::beginTransaction();
+        try {
+    
+            StaffRoleBid::where(['id' => $id])->delete();
+            
+            DB::commit();
+            return redirect()->route('staffrolebid.index')->with('success','Staff role bids deleted successfully.');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->route('staffrolebid.index')->with('error',$th->getMessage());
+        }
+    }
+
+
 //     /**
 //      * Remove the specified resource from storage.
 //      *
@@ -176,5 +218,5 @@ class StaffRoleBidController extends Controller
 //             DB::rollback();
 //             return redirect()->route('roles.index')->with('error',$th->getMessage());
 //         }
-//     }
+//     }    
 }
