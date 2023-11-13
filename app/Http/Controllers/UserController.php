@@ -34,7 +34,8 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::with('roles', 'staffRole')->paginate(10);
+        $users = User::all();
+       /*  $users = User::with('roles', 'staffRole')->paginate(200); */
         return view('users.index', ['users' => $users]);
     }
 
@@ -56,10 +57,11 @@ class UserController extends Controller
             'email'         => 'required|unique:users,email',
             'mobile_number' => 'required|numeric|digits:8',
             'role_id'       =>  'required|exists:roles,id',
-            //'staff_role_id' => 'required',
-            //'requested_workslots' => 'required',
+            /* 'requested_workslots' => 'required', */
             'status'       =>  'required|numeric|in:0,1',
         ]);
+
+
 
         DB::beginTransaction();
         try {
@@ -74,7 +76,6 @@ class UserController extends Controller
                 //'staff_role_id' => $request->staff_role_id,
                 //'requested_workslots' => $request->requested_workslots,
                 'status'        => $request->status,
-                /* 'password'      => Hash::make($request->first_name.'@'.$request->mobile_number) */
                 'password' => Hash::make($request->password), // Set the password field
                 
             ]);
@@ -132,8 +133,11 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        $staffRoles = StaffRoles::all();
         $roles = Role::all();
+        
         return view('users.edit')->with([
+            'staffRoles'=> $staffRoles,
             'roles' => $roles,
             'user'  => $user
         ]);
@@ -150,7 +154,7 @@ class UserController extends Controller
             'mobile_number' => 'required|numeric|digits:8',
             'role_id'       =>  'required|exists:roles,id',
             'staff_role_id' => 'required',
-            'requested_workslots' => 'required',
+            /* 'requested_workslots' => 'required', */
             'status'       =>  'required|numeric|in:0,1',
         ]);
 
@@ -234,10 +238,11 @@ class UserController extends Controller
     
     public function updateslots(Request $request, User $user)
     {
-        // Validations
-        //$request->validate([
-        //    'requested_workslots' => 'required',
-        //]);
+        //Validation
+        /* $request->validate([
+            'requested_workslots' => 'required|numeric|min:0',
+        ]); */
+
 
         DB::beginTransaction();
         try {
@@ -256,4 +261,5 @@ class UserController extends Controller
             return redirect()->back()->withInput()->with('error', $th->getMessage());
         }
     }
+
 }

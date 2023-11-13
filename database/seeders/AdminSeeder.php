@@ -76,5 +76,16 @@ class AdminSeeder extends Seeder
             'requested_workslots' => 5,
             'staff_role_id' => 3
         ]);
+
+        $user = User::create([
+            'first_name'    => 'Cafe',
+            'last_name'     => 'Staff 4',
+            'email'         =>  'staff4@gmail.com',
+            'mobile_number' =>  '83358423',
+            'password'      =>  Hash::make('111'),
+            'role_id'       => 4,
+            'requested_workslots' => 5,
+            'staff_role_id' => 3
+        ]);
     }
 }

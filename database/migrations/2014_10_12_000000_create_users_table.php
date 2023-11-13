@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('role_id')->default(4)->comment('1=SuperAdmin, 2=CafeOwner, 3=Manager, 4=Staff');
-            $table->unsignedBigInteger('staff_role_id')->nullable()->comment('1=Chef, 2=Waiter, 3=Cashier');
+            $table->unsignedBigInteger('staff_role_id')->nullable()->comment('1=Cashier, 2=Chef, 3=Waiter');
             $table->integer('requested_workslots')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->foreign('staff_role_id')->references('id')->on('staff_roles')

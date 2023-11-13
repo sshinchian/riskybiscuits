@@ -8,73 +8,92 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-        {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
     </div>
-
-{{-- <div class="row">
-        <div class="col-md-12">
-            <h2 class="text-center mb-3">Welcome To Tech-Admin Dashboard!</h2>
-        </div>
-    </div> --}}
 
     <!-- Content Row -->
     <div class="row">
-
-        <!-- Earnings (Monthly) Card Example -->
+        <!-- Pending Staff Role Approvals -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
+
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Earnings (Monthly)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3)
+                                    Pending Staff Role Approvals
+                                @elseif(auth()->user()->role_id == 4)
+                                    Available Workslots
+                                @endif
+                            </div>
+                            <div class="h3 mb-0 font-weight-bold text-gray-800">
+                                @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3)
+                                    {{ $pendingStaffRoleApprovalCount }}
+                                @elseif(auth()->user()->role_id == 4)
+                                    @switch(auth()->user()->staff_role_id)
+                                        @case(1) {{ $availableWorkslotsCountForCashier }} @break
+                                        @case(2) {{ $availableWorkslotsCountForChef }} @break
+                                        @case(3) {{ $availableWorkslotsCountForWaiter }} @break
+                                        @default <!-- Non Assigned --> @break
+                                    @endswitch
+                                @endif
+                            </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            <i class="fa-solid fa-check-to-slot fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Earnings (Monthly) Card Example -->
+        <!-- Pending Workslot Approvals -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
+
+                            <!-- Counts for SupeAdmin / Owner / Manager -->
+                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3)
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Earnings (Annual)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                Pending Workslot Approvals</div>
+                            <div class="h3 mb-0 font-weight-bold text-gray-800">{{ $pendingWorkslotApprovalCount }}</div>
+
+                            <!-- Counts for Staff Roles -->
+                            {{-- Chef --}}
+                            @elseif(auth()->user()->role_id == 4)
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                My Workslot Bids</div>
+                            <div class="h3 mb-0 font-weight-bold text-gray-800">{{ $approvedWorkSlotBids .' / '. $totalWorkSlotBids}}</div>
+
+                            @elseif(auth()->user()->role_id == 4)
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                My Workslot Bids</div>
+                            <div class="h3 mb-0 font-weight-bold text-gray-800"></div>
+                            @endif
+
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            <i class="fa-solid fa-check-to-slot fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Earnings (Monthly) Card Example -->
+        <!-- Available Workslots -->
+        @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 3)
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Available Workslots
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                </div>
-                                <div class="col">
-                                    <div class="progress progress-sm mr-2">
-                                        <div class="progress-bar bg-info" role="progressbar"
-                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                            aria-valuemax="100"></div>
-                                    </div>
+                                    <div class="h3 mb-0 mr-3 font-weight-bold text-gray-800">{{ $availableWorkslotsCount }}</div>
                                 </div>
                             </div>
                         </div>
@@ -86,106 +105,66 @@
             </div>
         </div>
 
-        <!-- Pending Requests Card Example -->
+
+        <!-- Total Staff -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Pending Requests</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                Total Staff</div>
+                            <div class="h3 mb-0 font-weight-bold text-gray-800">{{ $staffCount }}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                            <i class="fa-solid fa-person fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        @endif
     </div>
-
-    <!-- Cards section -->
-    <div class="row">
-        <div class="col-lg-6">
-            <!-- Basic Card Example -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Basic Card Example</h6>
-                </div>
-                <div class="card-body">
-                    The styling for this basic card example is created by using default Bootstrap
-                    utility classes. By using utility classes, the style of the card component can be
-                    easily modified with no need for any custom CSS!
-                </div>
-            </div>
-
-        </div>
-
-        <div class="col-lg-6">
-
-            <!-- Collapsable Card Example -->
-            <div class="card shadow mb-4">
-                <!-- Card Header - Accordion -->
-                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                    <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
-                </a>
-                <!-- Card Content - Collapse -->
-                <div class="collapse show" id="collapseCardExample">
-                    <div class="card-body">
-                        This is a collapsable card example using Bootstrap's built in collapse
-                        functionality. <strong>Click on the card header</strong> to see the card body
-                        collapse and expand! 
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <!-- End of Cards section -->
-
-
+    
     <!-- Charts section -->
-    <div class="row">
+<div class="row">
 
         <div class="col-xl-6 col-lg-7">
-
             <!-- Area Chart -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Area Chart</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Weekly Workslots</h6>
                 </div>
                 <div class="card-body">
                     <div class="chart-area">
-                        <canvas id="myAreaChart"></canvas>
+                        <canvas id="myBarChart"></canvas>
                     </div>
                 </div>
             </div>
-
         </div>
 
-        <!-- Donut Chart -->
+
+        <!-- Staff Roles Chart -->
         <div class="col-xl-6 col-lg-5">
             <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
+
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Donut Chart</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Staff Roles</h6>
                 </div>
-                <!-- Card Body -->
+
                     <div class="card-body">
                     <div class="chart-pie pt-4 pb-2">
                         <canvas id="myPieChart"></canvas>
                     </div>
                     <div class="mt-4 text-center small">
                         <span class="mr-2">
-                            <i class="fas fa-circle text-primary"></i> Direct
+                            <i class="fas fa-circle text-primary"></i> Chef
                         </span>
                         <span class="mr-2">
-                            <i class="fas fa-circle text-success"></i> Social
+                            <i class="fas fa-circle text-success"></i> Cashier
                         </span>
                         <span class="mr-2">
-                            <i class="fas fa-circle text-info"></i> Referral
+                            <i class="fas fa-circle text-info"></i> Waiter
                         </span>
                     </div>
                 </div>
@@ -195,7 +174,13 @@
     <!-- End of Charts section -->
 
 
-    
+<!-- PHP script tag to pass data to JavaScript -->
+<script>
+    var countData = <?php echo json_encode($countData); ?>;
+    var dayOfWeekCounts = <?php echo json_encode($dayOfWeekCounts); ?>;
+</script>
+
+<script src="{{ asset('js/chart-script.js') }}"></script>
 
 </div>
 @endsection

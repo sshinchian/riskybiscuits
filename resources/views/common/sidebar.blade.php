@@ -41,7 +41,7 @@
                 @endif
                 @if(auth()->user()->hasRole('SuperAdmin'))
                 <a class="collapse-item" href="{{ route('users.create') }}">Add New User</a>
-                <a class="collapse-item" href="{{ route('users.import') }}">Import Users</a>
+                {{-- <a class="collapse-item" href="{{ route('users.import') }}">Import Users</a> --}}
                 @endif
 
             </div>
@@ -52,29 +52,8 @@
     @endif
 
 
-    <!--------------------------------------- TO BE DELETED LATER - CAFE --------------------------------------->
+ 
 
-    {{-- @if(auth()->user()->hasRole('SuperAdmin'))
-    <div class="sidebar-heading">
-        Cafe
-    </div>
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#cafes"
-            aria-expanded="true" aria-controls="cafes">
-            <i class="fas fa-table"></i>
-            <span>Manage Cafe</span>
-        </a>
-        <div id="cafes" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('cafes.viewcafe') }}">View Cafes</a>
-                <a class="collapse-item" href="{{ route('cafes.createcafe') }}">Add New Cafe</a>
-                <a class="collapse-item" href="{{ route('cafes.archive') }}">Deleted Cafes</a>
-                <a class="collapse-item" href="{{ route('cafes.import') }}">Import Cafes</a>
-            </div>
-        </div>
-    </li>
-    <hr class="sidebar-divider">
-    @endif --}}
 
     <!-- Nav Item - STAFFROLE BIDS -->
     @if(auth()->user()->hasRole('Manager') || auth()->user()->hasRole('Staff'))

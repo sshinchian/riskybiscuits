@@ -9,14 +9,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Imports\WorkslotImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
 class WorkSlotController extends Controller
 {
 
     public function index()
-    {
-        $workSlots = WorkSlot::whereNotIn('id', WorkSlotBid::where('status', 1)->pluck('work_slot_id'))->get();
-    
+    {   
+        // Retrieve work slots that do not have a corresponding entry in the WorkSlotBid table where the status eqauls to 1
+        $workSlots = WorkSlot::whereNotIn('id', WorkSlotBid::where('status', 1)->pluck('work_slot_id'))
+        ->get();
+        
         return view('workslot.index', compact('workSlots'));
     }
     
@@ -31,15 +35,32 @@ class WorkSlotController extends Controller
 
     public function store(Request $request)
     {
+
+        //Validation rule
+        Validator::extend('date_after', function ($attribute, $value, $parameters, $validator) {
+            $start_date = $validator->getData()[$parameters[0]];
+            $end_date = $value;
+
+            return strtotime($end_date) > strtotime($start_date);
+        });
+
+        $customMessages = [
+            'date_after' => 'The end date must be after the start date.',
+        ];
+
         $request->validate([
             'staff_role_id'             => 'required',
             /* 'time_slot_name'         => 'required', */
-            'start_date'                => 'required',
-            'end_date'                  => 'required',
+            'start_date'                => 'required|date',
+            'end_date' => [
+                'required',
+                'date',
+                'date_after:start_date', //Ensure end_date is after start_date
+            ],
             'start_time'                => 'required',
             'end_time'                  => 'required',
             'quantity'                  => 'required|numeric|min:1',
-        ]);
+        ],$customMessages);
 
         DB::beginTransaction();
 
@@ -92,6 +113,7 @@ class WorkSlotController extends Controller
                 /* 'end_date'                  => 'required', */
                 'start_time'                => 'required',
                 'end_time'                  => 'required',
+                'quantity'                  => 'required|numeric|min:1',
                 'quantity'                  => 'required|numeric|min:1',
         ]);
 

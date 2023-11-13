@@ -92,7 +92,7 @@
                         @enderror
                     </div>
 
-                    {{-- Role --}}
+                    {{-- User Type --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Role</label>
                         <select class="form-control form-control-user @error('role_id') is-invalid @enderror" name="role_id">
@@ -109,8 +109,25 @@
                         @enderror
                     </div>
 
-                    {{-- Available Slots --}}
+                    {{-- Staff Role --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <span style="color:red;">*</span>Staff Role</label>
+                        <select class="form-control form-control-user @error('staff_role_id') is-invalid @enderror" name="staff_role_id">
+                            <option selected disabled>Select Staff Role</option>
+                            @foreach ($staffRoles as $staffRole)
+                                <option value="{{$staffRole->id}}" 
+                                    {{old('staff_role_id') ? ((old('staff_role_id') == $staffRole->id) ? 'selected' : '') : (($user->staff_role_id == $staffRole->id) ? 'selected' : '')}}>
+                                    {{$staffRole->name}}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('staff_role_id')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
+                    {{-- Available Slots --}}
+                   {{--  <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Available Slots</label>
                         <input 
                             type="text" 
@@ -122,7 +139,24 @@
                         @error('available_slots')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
+                    </div> --}}
+
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <span style="color:red;">*</span>Requested Workslots</label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-user @error('requested_workslots') is-invalid @enderror" 
+                            id="exampleSlots"
+                            placeholder="Requested Workslots" 
+                            name="requested_workslots" 
+                            value="{{ old('requested_workslots') ? old('requested_workslots') : $user->requested_workslots }}">
+
+                        @error('requested_workslots')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
                     </div>
+
+
 
                     <!-- Password -->
                     {{-- <div class="col-sm-6 mb-3 mt-3 mb-sm-0">

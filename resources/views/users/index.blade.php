@@ -93,5 +93,8 @@
 @endsection
 
 @section('scripts')
+<!-- tables scripts -->
+@include('common.tables')
+<!-- End of tables scripts -->
     
 @endsection

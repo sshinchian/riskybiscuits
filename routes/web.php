@@ -60,22 +60,6 @@ Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
 });
 
 
-//Cafes
-Route::middleware('auth')->prefix('cafes')->name('cafes.')->group(function(){
-    Route::get('/view-cafe', [CafesController::class, 'viewcafe'])->name('viewcafe');
-    Route::get('/create-cafe', [CafesController::class, 'createcafe'])->name('createcafe');
-    Route::post('/store-cafe', [CafesController::class, 'storecafe'])->name('storecafe');
-    Route::get('/editcafe/{cafe}', [CafesController::class, 'editcafe'])->name('editcafe');
-    Route::put('/updatecafe/{cafe}', [CafesController::class, 'updatecafe'])->name('updatecafe');
-    Route::delete('/deletecafe/{cafe}', [CafesController::class, 'destroy'])->name('destroycafe')->withTrashed();
-    Route::get('/archivecafe', [CafesController::class, 'archive'])->name('archive');
-    Route::get('/recovercafe', [App\Http\Controllers\CafesController::class, 'restore'])->where('id','[0-9]+')->name('restore');
-    Route::get('/import-cafes', [CafesController::class, 'importCafes'])->name('import');
-    Route::post('/upload-cafes', [CafesController::class, 'uploadCafes'])->name('upload');
-    Route::get('export-cafes/', [CafesController::class, 'exportCafes'])->name('export');
-});
-
-
 //Staff Role Bids
 Route::middleware(['auth'])->prefix('staffrolebids')->name('staffrolebids.')->group(function() {
     Route::get('/', [StaffRoleBidController::class, 'index'])->name('index');
