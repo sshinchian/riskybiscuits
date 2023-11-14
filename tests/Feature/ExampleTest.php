@@ -15,13 +15,13 @@ class UserTest extends TestCase
     use RefreshDatabase;
     public function test_login_redirect_to_dashboard_successfully() {
 
-        $adminRole = optional(Role::where('name', 'SuperAdmin')->first())->id;
-
+        /* $adminRole = optional(Role::where('name', 'SuperAdmin')->first())->id;
+ */
         User::factory()->create([
             'first_name'    => 'Super',
             'last_name'     => 'Admin',
-            'email'         =>  'superadmin@gmail.com',
-            'mobile_number' =>  '81818181',
+            'email'         =>  'superadmin2@gmail.com',
+            'mobile_number' =>  '81818381',
             'password'      =>  Hash::make('password'),
             'role_id' => 1
 
@@ -29,7 +29,7 @@ class UserTest extends TestCase
 
 
        $response = $this->post('/login',[
-        'email'=> 'superadmin@gmail.com',
+        'email'=> 'superadmin2@gmail.com',
         'password' => 'password'
        ]);
 
