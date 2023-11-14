@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 
 class UserTest extends TestCase
@@ -16,15 +17,15 @@ class UserTest extends TestCase
 
         User::factory()->create([
 
+            $adminRole = Role::where('name', 'SuperAdmin')->first();
+
             'first_name'    => 'Super',
             'last_name'     => 'Admin',
             'email'         =>  'superadmin@gmail.com',
             'mobile_number' =>  '81818181',
             'password'      =>  Hash::make('111'),
-            'role_id'       => 1
+            'role_id' => $adminRole->id,
 
-            /* "email"=> "superadmin@gmail.com",
-             "password"=> bcrypt("password"), */
         ]);
 
 
