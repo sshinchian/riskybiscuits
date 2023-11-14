@@ -9,6 +9,7 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
+    use RefreshDatabase;
     public function test_login_redirect_to_dashboard_successfully() {
 
        $response = $this->post('/login',[
