@@ -23,7 +23,8 @@ class UserTest extends TestCase
             'email'         =>  'superadmin2@gmail.com',
             'mobile_number' =>  '81818381',
             'password'      =>  Hash::make('password'),
-            'role_id' => 1
+            'role_id' => 1,
+            'status' => 1
 
         ]);
 
