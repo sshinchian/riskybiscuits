@@ -239,8 +239,9 @@ class UserController extends Controller
     public function updateslots(Request $request, User $user)
     {
         //Validation
+        $current = WorkSlotBid::query()->where('user_id',$user->id)->where('status','>=','0')->count();
         $request->validate([
-            'requested_workslots_' . $user->id => 'required|numeric|min:1',
+            'requested_workslots_' . $user->id => 'required|numeric|between:'. $current.',30',
         ]);
 
 

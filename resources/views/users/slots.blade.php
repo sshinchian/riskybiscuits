@@ -38,9 +38,10 @@
                                 <td>
                                     @php
                                         $errorId = "requested_workslots_" . $user->id;
+                                        $current = $workslotbids->where('user_id',$user->id)->where('status','>=','0')->count();
                                     @endphp                    
                                     <input 
-                                        type="number" min="1" max="30" 
+                                        type="number" min="{{ $current ? $current : 0}}" max="30" 
                                         class="form-control quantity form-control-user @error($errorId) is-invalid @enderror" 
                                         id="exampleSlots"
                                         placeholder="Requested Slots" 
