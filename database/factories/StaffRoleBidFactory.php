@@ -13,9 +13,19 @@ class StaffRoleBidFactory extends Factory
         return [
             'user_id' => User::factory(),
             'staff_role_id' =>function (array $attributes){
-                return User::find($attributes['user_id'])->staff_role_id;
+                $staffRoleId = User::find($attributes['user_id'])->staff_role_id;
+                if($staffRoleId == null)
+                    return $this->faker->numberBetween(1,3);
+                else
+                    return $staffRoleId;
             },
-            'status' => 1,
+            'status' => function(array $attributes){
+                $staffRoleId= User::find($attributes['user_id'])->staff_role_id;
+                if($staffRoleId == null)
+                    return $this->faker->numberBetween(-1,0);
+                else
+                    return 1;
+            },
         ];
     }
 
