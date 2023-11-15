@@ -38,7 +38,7 @@ class WorkSlotBidSeeder extends Seeder
         ]);
         $workslot = WorkSlotBid::create([
             'cafe_id' => 1,
-            'work_slot_id'=> 4,
+            'work_slot_id'=> 6,
             'user_id' => 7,
             'status' => 0,
         ]);
