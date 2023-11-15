@@ -239,17 +239,17 @@ class UserController extends Controller
     public function updateslots(Request $request, User $user)
     {
         //Validation
-        /* $request->validate([
-            'requested_workslots' => 'required|numeric|min:0',
-        ]); */
+        $request->validate([
+            'requested_workslots_' . $user->id => 'required|numeric|min:1',
+        ]);
 
 
         DB::beginTransaction();
         try {
-
+            $qty = 'requested_workslots_'.$user->id;
             // Store Data
             $user_updated = User::whereId($user->id)->update([
-                'requested_workslots' => $request->requested_workslots,
+                'requested_workslots' => $request->$qty,
             ]);
             // Commit And Redirected To Listing
             DB::commit();
