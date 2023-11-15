@@ -12,7 +12,7 @@
 
     {{-- Alert Messages --}}
     @include('common.alert')
-   
+
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -35,19 +35,24 @@
                         @foreach($users as $user)
                             <tr>
                                 <td>{{$user->first_name . ' '. $user->last_name}}</td>
-                                <td>                    
+                                <td>
+                                    @php
+                                        $errorId = "requested_workslots_" . $user->id;
+                                    @endphp                    
                                     <input 
-                                        type="text" 
-                                        class="form-control quantity form-control-user @error('available_slots') is-invalid @enderror" 
+                                        type="number" min="1" max="30" 
+                                        class="form-control quantity form-control-user @error($errorId) is-invalid @enderror" 
                                         id="exampleSlots"
                                         placeholder="Requested Slots" 
-                                        name="requested_workslots" 
+                                        name="requested_workslots_{{$user->id}}" 
                                         form="requestedWorkslotSave-{{ $user->id }}"
                                         value="{{ old('requested_workslots') ? old('requested_workslots') : $user->requested_workslots }}">
-                                    @error('requested_workslots')
-                                        <span class="text-danger">{{$message}}</span>
-                                    @enderror
-                                </td>
+                                        @error($errorId)
+                                        <span class="text-danger">
+                                            {{$message}}
+                                        </span>
+                                        @enderror
+                                    </td>
                                 <td>{{$workslotbids->where('user_id', $user->id)->count()}}</td>
                                 <td>{{$user->requested_workslots - $workslotbids->where('user_id', $user->id)->count()}}</td>
                                 <td class="form-control-user" style="display: flex">
