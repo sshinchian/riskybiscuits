@@ -42,21 +42,6 @@
                     <!-- Force next columns to break to new line -->
                     <div class="w-100"></div>
 
-                    {{-- Workslot Name --}}
-                    {{-- div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Workslot Name</label>
-                        <input 
-                            type="text" 
-                            class="form-control form-control-user @error('time_slot_name') is-invalid @enderror" 
-                            id="time_slot_name"
-                            placeholder="Workslot Name" 
-                            name="time_slot_name" 
-                            value="{{ old('time_slot_name') }}">
-
-                        @error('time_slot_name')
-                            <span class="text-danger">{{$message}}</span>
-                        @enderror
-                    </div> --}}
 
                     {{-- Start Date --}}
                     <div class="col-sm-3 mb-3 mt-3 mb-sm-0">
@@ -89,23 +74,6 @@
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
-
-
-                    {{-- Date --}}
-                    {{-- <div class="col-sm-3 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Date</label>
-                        <input 
-                            type="date" 
-                            class="form-control form-control-user @error('date') is-invalid @enderror" 
-                            id="date"
-                            placeholder="Date" 
-                            name="date" 
-                            value="{{ old('date') }}">
-
-                        @error('date')
-                            <span class="text-danger">{{$message}}</span>
-                        @enderror
-                    </div> --}}
 
 
                     {{-- Start Time --}}

@@ -40,17 +40,16 @@ class WorkSlotController extends Controller
         Validator::extend('date_after', function ($attribute, $value, $parameters, $validator) {
             $start_date = $validator->getData()[$parameters[0]];
             $end_date = $value;
-
-            return strtotime($end_date) > strtotime($start_date);
-        });
+        
+            return strtotime($end_date) >= strtotime($start_date);
+        });        
 
         $customMessages = [
-            'date_after' => 'The end date must be after the start date.',
+            'date_after' => 'The end date must same as the start date or after the start date.',
         ];
 
         $request->validate([
             'staff_role_id'             => 'required',
-            /* 'time_slot_name'         => 'required', */
             'start_date'                => 'required|date',
             'end_date' => [
                 'required',
@@ -108,9 +107,7 @@ class WorkSlotController extends Controller
         {
             $request->validate([
                 'staff_role_id'             => 'required',
-                /* 'time_slot_name'         => 'required', */
                 'start_date'                => 'required',
-                /* 'end_date'                  => 'required', */
                 'start_time'                => 'required',
                 'end_time'                  => 'required',
                 'quantity'                  => 'required|numeric|min:1',
@@ -123,9 +120,7 @@ class WorkSlotController extends Controller
                 // Update Data
                 $workSlot->update([
                     'staff_role_id'         => $request->staff_role_id,
-                    /* 'time_slot_name'     => $request->time_slot_name, */
                     'start_date'            => $request->start_date,
-                    /* 'end_date'              => $request->end_date, */
                     'start_time'            => $request->start_time,
                     'end_time'              => $request->end_time,
                     'quantity'              => $request->quantity,
