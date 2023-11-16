@@ -1,4 +1,4 @@
-name: CI
+name: CINew
 on: [push]
 jobs:
  
