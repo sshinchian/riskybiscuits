@@ -12,10 +12,7 @@ jobs:
       mysql:
         image: mysql:latest
         env:
-          APP_URL: "http://127.0.0.1:8000"
-          DB_USERNAME: root
-          DB_PASSWORD: root
-          MAIL_MAILER: log
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
           - 3306
         options: >-
