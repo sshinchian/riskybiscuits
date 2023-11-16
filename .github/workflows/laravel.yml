@@ -1,43 +1,53 @@
-name: CINew
-on: [push]
-jobs:
+name: Tests
  
-  dusk-php:
+on:
+  push:
+  pull_request:
+ 
+jobs:
+  tests:
     runs-on: ubuntu-latest
-    env:
-      APP_URL: "http://127.0.0.1:8000"
-      DB_USERNAME: root
-      DB_PASSWORD: root
-      MAIL_MAILER: log
+ 
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        ports:
+          - 3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+ 
     steps:
-      - uses: actions/checkout@v4
-      - name: Prepare The Environment
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: 8.1
+ 
+      - name: Setup the MySQL database
+        run: mysql -u root -h 127.0.0.1 -P ${{ job.services.mysql.ports[3306] }} -e "CREATE DATABASE laravel"
+ 
+      - name: Setup Redis
+        uses: zhulik/redis-action@1.1.0
+ 
+      - name: Checkout code
+        uses: actions/checkout@v3
+ 
+      - name: Create .env file
         run: cp .env.example .env
-      - name: Create Database
-        run: |
-          sudo systemctl start mysql
-          mysql --user="root" --password="root" -e "CREATE DATABASE \`my-database\` character set UTF8mb4 collate utf8mb4_bin;"
-      - name: Install Composer Dependencies
-        run: composer install --no-progress --prefer-dist --optimize-autoloader
-      - name: Generate Application Key
+ 
+      - name: Install back-end dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+ 
+      - name: Generate encryption key
         run: php artisan key:generate
-      - name: Upgrade Chrome Driver
-        run: php artisan dusk:chrome-driver --detect
-      - name: Start Chrome Driver
-        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
-      - name: Run Laravel Server
-        run: php artisan serve --no-reload &
-      - name: Run Dusk Tests
-        run: php artisan dusk
-      - name: Upload Screenshots
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: screenshots
-          path: tests/Browser/screenshots
-      - name: Upload Console Logs
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: console
-          path: tests/Browser/console
+ 
+      - name: Install and build front-end dependencies
+        run: yarn && yarn build
+ 
+      - name: Run tests
+        run: php artisan test
