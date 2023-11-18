@@ -21,7 +21,7 @@ class UserFactory extends Factory
         return [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
-            'mobile_number' => $this->faker->phoneNumber(),
+            'mobile_number' => $this->faker->randomElement([8,9]) . $this->faker->randomNumber(7,true),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => Hash::make('P@ssw0rd'. $this->faker->numberBetween(0, 20000000)), // password
